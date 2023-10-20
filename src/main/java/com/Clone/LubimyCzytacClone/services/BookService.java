@@ -12,13 +12,35 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-
     public List<Book> getAllBooks(){
         return bookRepository.findAll();
     }
 
+    public Book getBookInfo(String title, String author){
+
+        return bookRepository.getBookByTitleAndAuthor(title, author);
+
+    }
     public void addBook(Book newBook){
+
+        //String author = newBook.get
+
         bookRepository.save(newBook);
     }
 
+    public void removeBook(Long id){
+        bookRepository.deleteById(id);
+    }
+
+    public void updateBook(Book bookToUpdate){
+        //TODO update Book
+    }
+
+    public Boolean checkIfBookDataNotNull(Book book) {
+
+        if(book.getTitle() == null || book.getTitle().isEmpty() || book.getAuthor() == null || book.getAuthor().isEmpty()){
+            return false;
+        }
+        return true;
+    }
 }
