@@ -9,23 +9,35 @@ import java.util.List;
 
 @Service
 public class BookService {
-    @Autowired
+
     private BookRepository bookRepository;
+
+    @Autowired
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     public List<Book> getAllBooks(){
         return bookRepository.findAll();
     }
 
     public Book getBookInfo(String title, String author){
-
-        return bookRepository.getBookByTitleAndAuthor(title, author);
-
+        if(checkInputParameters(title, author)){
+            bookRepository.getBookByTitleAndAuthor(title, author);
+        }
+        return null;
     }
-    public void addBook(Book newBook){
 
-        //String author = newBook.get
+    public boolean addBook(Book newBook){
 
-        bookRepository.save(newBook);
+        //TODO check id book already exist
+        if(checkInputBookData(newBook)){
+            bookRepository.save(newBook);
+            return true;
+        }else {
+            return false;
+        }
+
     }
 
     public void removeBook(Long id){
@@ -36,11 +48,11 @@ public class BookService {
         //TODO update Book
     }
 
-    public Boolean checkIfBookDataNotNull(Book book) {
+    public Boolean checkInputBookData(Book book) {
+        return book.getTitle() != null && !book.getTitle().isEmpty() && book.getAuthor() != null && !book.getAuthor().isEmpty();
+    }
 
-        if(book.getTitle() == null || book.getTitle().isEmpty() || book.getAuthor() == null || book.getAuthor().isEmpty()){
-            return false;
-        }
-        return true;
+    private boolean checkInputParameters(String firstParam, String secondParam){
+        return firstParam != null && !firstParam.isEmpty() && secondParam != null && !secondParam.isEmpty();
     }
 }
