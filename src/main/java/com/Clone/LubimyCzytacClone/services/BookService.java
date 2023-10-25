@@ -21,23 +21,20 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book getBookInfo(String title, String author){
+    public Book getBookByTitleAndAuthor(String title, String author){
         if(checkInputParameters(title, author)){
-            bookRepository.getBookByTitleAndAuthor(title, author);
+            return bookRepository.getBookByTitleAndAuthor(title, author);
         }
         return null;
     }
 
     public boolean addBook(Book newBook){
-
-        //TODO check id book already exist
         if(checkInputBookData(newBook)){
             bookRepository.save(newBook);
             return true;
         }else {
             return false;
         }
-
     }
 
     public void removeBook(Long id){
@@ -45,7 +42,11 @@ public class BookService {
     }
 
     public void updateBook(Book bookToUpdate){
-        //TODO update Book
+         bookRepository.updateBook(
+                bookToUpdate.getId(),
+                bookToUpdate.getTitle(),
+                bookToUpdate.getReleaseYear(),
+                bookToUpdate.getAuthor());
     }
 
     public Boolean checkInputBookData(Book book) {

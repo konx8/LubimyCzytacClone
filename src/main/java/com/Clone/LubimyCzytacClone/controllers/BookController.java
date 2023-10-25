@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping(path = "api/v1")
 public class BookController {
 
-    private BookService bookService;
+    private final BookService bookService;
 
     @Autowired
     public BookController(BookService bookService) {
@@ -31,18 +31,25 @@ public class BookController {
         }else {
             return ResponseEntity.badRequest().body("Invalid data: The book data is incorrect");
         }
-
     }
 
     @GetMapping("/book")
-    public ResponseEntity<Book> getBookBy(@RequestParam String title, @RequestParam String author){
-
-        Book getBook = bookService.getBookInfo(title, author);
+    public ResponseEntity<Book> getBookByTitleAndAuthor(@RequestParam String title, @RequestParam String author){
+        Book getBook = bookService.getBookByTitleAndAuthor(title, author);
         if(getBook != null){
             return ResponseEntity.ok().body(getBook);
         }else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @DeleteMapping("/book")
+    public void removeBook(@RequestParam Long id){
+        bookService.removeBook(id);
+    }
+
+    @PatchMapping("/book")
+    public void updateBook(@RequestBody Book book){bookService.updateBook(book);
     }
 
 }
