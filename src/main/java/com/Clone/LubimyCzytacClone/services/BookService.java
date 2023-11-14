@@ -22,7 +22,7 @@ public class BookService {
     }
 
     public Book getBookByTitleAndAuthor(String title, String author){
-        if(checkInputParameters(title, author)){
+        if(checkInputParametersNotNullAndEmpty(title, author)){
             return bookRepository.getBookByTitleAndAuthor(title, author);
         }
         return null;
@@ -53,7 +53,7 @@ public class BookService {
         return book.getTitle() != null && !book.getTitle().isEmpty() && book.getAuthor() != null && !book.getAuthor().isEmpty();
     }
 
-    private boolean checkInputParameters(String firstParam, String secondParam){
+    private boolean checkInputParametersNotNullAndEmpty(String firstParam, String secondParam){
         return firstParam != null && !firstParam.isEmpty() && secondParam != null && !secondParam.isEmpty();
     }
 }

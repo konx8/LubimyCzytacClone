@@ -19,4 +19,7 @@ public interface BookRepository extends JpaRepository<Book,Long> {
     @Query("UPDATE Book b SET b.title = :title, b.releaseYear = :releaseYear, b.author = :author WHERE b.id = :id")
     void updateBook(@Param("id") Long id, @Param("title") String title, @Param("releaseYear") int releaseYear, @Param("author") String author);
 
+    @Query("SELECT b FROM Book b WHERE b.id = :id")
+    Book getBookById(@Param("id") Long id);
+
 }
