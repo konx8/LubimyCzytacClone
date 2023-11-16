@@ -31,7 +31,4 @@ public class Book {
         this.releaseYear = releaseYear;
         this.author = author;
     }
-
-    public Book() {
-    }
 }
