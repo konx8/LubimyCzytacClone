@@ -18,29 +18,33 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/users")
-    public List<User> getUsers() {
+    public List<UserDAO> getUsers() {
         return userService.getUsers();
     }
 
     @GetMapping("/user")
-    public ResponseEntity<User> getUser(@RequestParam Long id) {
-        User user = userService.getUser(id);
+    public ResponseEntity<UserDAO> getUser(@RequestParam Long id) {
+        UserDAO user = userService.getUser(id);
         if (user == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body(user);
         }
     }
 
     @PostMapping("/user")
-    public ResponseEntity<UserDAO> addUser(@RequestBody User newUserData) {
-        UserDAO newUser = userService.createUser(newUserData);
-        if (newUser == null) {
-            return ResponseEntity.badRequest().build();
-        } else {
+    public ResponseEntity<UserDAO> createUser(@RequestBody User newUserData) {
+        try {
+            UserDAO newUser = userService.createUser(newUserData);
             return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(new UserDAO(e.getMessage(), null));
         }
+    }
 
+    @DeleteMapping("/user")
+    public void deleteUser(@RequestParam Long id){
+        userService.deleteUser(id);
     }
 
 
