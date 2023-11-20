@@ -1,11 +1,17 @@
 package com.Clone.LubimyCzytacClone.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data
 @Table(name = "users")
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -20,5 +26,8 @@ public class User {
     private String name;
     @Column
     private String email;
+
+//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+//    private List<BookRate> bookRates;
 
 }
